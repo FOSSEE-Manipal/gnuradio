@@ -33,7 +33,7 @@ DOC_MARKUP_TMPL="""\
 $encode($doc)#slurp
 #else
 undocumented#slurp
-#end if"""
+end if"""
 
 CAT_MARKUP_TMPL="""Category: $cat"""
 
