@@ -22,7 +22,7 @@ import wx
 from gnuradio import gr
 import panel
 
-default_gui_size = (200, 100)
+default_gui_size = (600, 600)
 
 class top_block_gui(gr.top_block):
 	"""gr top block with wx gui app and grid sizer."""
@@ -41,7 +41,9 @@ class top_block_gui(gr.top_block):
 		#create gui elements
 		self._app = wx.App()
 		self._frame = wx.Frame(None, title=title)
-		self._panel = panel.Panel(self._frame)
+		self._scroll = wx.ScrolledWindow(self._frame,-1)
+		self._scroll.SetScrollbars(1,1,400,600)
+		self._panel = panel.Panel(self._scroll)
 		self.Add = self._panel.Add
 		self.GridAdd = self._panel.GridAdd
 		self.GetWin = self._panel.GetWin
@@ -64,8 +66,8 @@ class top_block_gui(gr.top_block):
 		self._frame.Bind(wx.EVT_CLOSE, _quit)
 		self._sizer = wx.BoxSizer(wx.VERTICAL)
 		self._sizer.Add(self._panel, 0, wx.EXPAND)
-		self._frame.SetSizerAndFit(self._sizer)
-		self._frame.SetAutoLayout(True)
+		self._scroll.SetSizer(self._sizer)
+		self._frame.SetAutoLayout(False)
 		self._frame.Show(True)
 		self._app.SetTopWindow(self._frame)
 		#start flow graph
