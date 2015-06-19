@@ -1,5 +1,4 @@
 import numpy
-import threading
 import numpy as np
 import scipy as sp
 from gnuradio import gr
@@ -18,7 +17,7 @@ from matplotlib.backends.backend_wxagg import FigureCanvasWxAgg as FigCanvas
 from matplotlib.backends.backend_wx import NavigationToolbar2Wx
 from matplotlib.figure import Figure
 import gnuradio.wxgui.plot as plot
- 
+import matplotlib.animation as animation
 temp = ''
 class Bode(gr.sync_block):
     """
@@ -73,11 +72,10 @@ class Bode(gr.sync_block):
 	        del self.z2[:]
 		print "I  am z3\n", self.z3
 		if ( bool or self.count == 1 ):
-			#th1 = threading.Thread(target=self.win.plot(tf(self.z1,self.z3),None,True,True,True,True))
-			#th1.setDaemon(True)
-			#th1.start()
-			self.win.plot(tf(self.z1,self.z3),None,True,True,True,True)
-		#self.BP.ani = animation.FuncAnimation( self.BP.fig, self.BP.plot(tf(self.z1,self.z3),None,True,True,True,True,self.count) , interval=100 )
+			try:
+				self.win.plot(tf(self.z1,self.z3),None,True,True,True,True)
+			except:
+				pass
 		self.count = 0
 		print "Counter",self.i
 		self.i+=1
@@ -133,4 +131,3 @@ class BodePlot(wx.Panel):
 		self.axes2.semilogx(omega,phase,*args,**kwargs)
 		self.canvas = FigCanvas(self, -1, self.fig)
 		self.canvas.draw()
-
