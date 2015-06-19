@@ -226,7 +226,7 @@ class BlockTreeWindow(gtk.VBox):
 		maincat="0000" # is used to store the retrieved value from xml files of sub-category
 		header=(None,None,None,None) # is the value from the dictionary dick_cat for key maincat of each subcategory
 		try:	
-			f=open("/usr/local/lib/python2.7/dist-packages/gnuradio/grc/gui/"+blo+".xml",'r') # to open the xml files
+			f=open("/usr/local/lib/python2.7/dist-packages/gnuradio/grc/gui/subcategories-xml/"+blo+".xml",'r') # to open the xml files
 			tree=ET.parse(f) # to make the xml file as tree structure
 			root=tree.getroot()
 			for child in root:
