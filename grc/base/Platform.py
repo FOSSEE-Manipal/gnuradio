@@ -120,6 +120,7 @@ class Platform(_Element):
 		Step 2: Load blocks with builtin category specifications.
 		@param block_tree the block tree object
 		"""
+		block_tree.add_maincat()
 		#recursive function to load categories and blocks
 		def load_category(cat_n, parent=[]):
 			#add this category
