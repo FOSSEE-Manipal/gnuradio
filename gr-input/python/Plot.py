@@ -44,16 +44,19 @@ class Plot(gr.sync_block):
 	    a.append(numpy.float32)
 	size=(600,350)
 	self.num_plot = num_plot
+	no = num_plot
 	self.ip = 0
 	self.ptr1 = 0
 	self.win = pg.GraphicsWindow()
+	
+        self._interval = int(sampleinterval*1000)
+        self._bufsize = int(timewindow/sampleinterval)
+
 	self.plt = self.win.addPlot()
         self.plt.showGrid(x=True, y=True)
         self.plt.setLabel('left', 'amplitude', 'V')
         self.plt.setLabel('bottom', 'time', 's')
 	# Data stuff
-        self._interval = int(sampleinterval*1000)
-        self._bufsize = int(timewindow/sampleinterval)
 	if self.num_plot == 1:
 	    self.databuffer = collections.deque([0.0]*self._bufsize, self._bufsize)
             self.x = np.linspace(0.0,timewindow,self._bufsize)
@@ -65,11 +68,13 @@ class Plot(gr.sync_block):
             self.x = np.linspace(0.0,timewindow,self._bufsize)
             self.y = np.zeros(self._bufsize, dtype=np.float)
             self.curve = self.plt.plot(self.x, self.y, pen=(255,0,0))
+
 	    self.win.nextRow()
             self.plt1 = self.win.addPlot()
             self.plt1.showGrid(x=True, y=True)
             self.plt1.setLabel('left', 'amplitude', 'V')
             self.plt1.setLabel('bottom', 'time', 's')
+
 	    self.databuffer1 = collections.deque([0.0]*self._bufsize, self._bufsize)
 	    self.x1 = np.linspace(0.0,timewindow,self._bufsize)
             self.y1 = np.zeros(self._bufsize, dtype=np.float)
@@ -79,38 +84,67 @@ class Plot(gr.sync_block):
             self.x = np.linspace(0.0,timewindow,self._bufsize)
             self.y = np.zeros(self._bufsize, dtype=np.float)
             self.curve = self.plt.plot(self.x, self.y, pen=(255,0,0))
+
 	    self.win.nextRow()
+	    self.plt1 = self.win.addPlot()
+            self.plt1.showGrid(x=True, y=True)
+            self.plt1.setLabel('left', 'amplitude', 'V')
+            self.plt1.setLabel('bottom', 'time', 's')
+	    
 	    self.databuffer1 = collections.deque([0.0]*self._bufsize, self._bufsize)
             self.x1 = np.linspace(0.0,timewindow,self._bufsize)
             self.y1 = np.zeros(self._bufsize, dtype=np.float)
-            self.curve1 = self.plt.plot(self.x1, self.y1, pen=(255,0,0))
+            self.curve1 = self.plt1.plot(self.x1, self.y1, pen=(255,0,0))
+
 	    self.win.nextRow()
+	    self.plt2 = self.win.addPlot()
+            self.plt2.showGrid(x=True, y=True)
+            self.plt2.setLabel('left', 'amplitude', 'V')
+            self.plt2.setLabel('bottom', 'time', 's')
+
 	    self.databuffer2 = collections.deque([0.0]*self._bufsize, self._bufsize)
             self.x2 = np.linspace(0.0,timewindow,self._bufsize)
             self.y2 = np.zeros(self._bufsize, dtype=np.float)
-            self.curve2 = self.plt.plot(self.x2, self.y2, pen=(255,0,0))
-	elif self.num_plot == 4:
+            self.curve2 = self.plt2.plot(self.x2, self.y2, pen=(255,255,0))
+	elif self.num_plot >= 4:
 
 	    self.databuffer = collections.deque([0.0]*self._bufsize, self._bufsize)
             self.x = np.linspace(0.0,timewindow,self._bufsize)
             self.y = np.zeros(self._bufsize, dtype=np.float)
             self.curve = self.plt.plot(self.x, self.y, pen=(255,0,0))
+
 	    self.win.nextRow()
-            self.databuffer1 = collections.deque([0.0]*self._bufsize, self._bufsize)
+	    self.plt1 = self.win.addPlot()
+            self.plt1.showGrid(x=True, y=True)
+            self.plt1.setLabel('left', 'amplitude', 'V')
+            self.plt1.setLabel('bottom', 'time', 's')
+	    
+	    self.databuffer1 = collections.deque([0.0]*self._bufsize, self._bufsize)
             self.x1 = np.linspace(0.0,timewindow,self._bufsize)
             self.y1 = np.zeros(self._bufsize, dtype=np.float)
-            self.curve1 = self.plt.plot(self.x1, self.y1, pen=(255,0,0))
+            self.curve1 = self.plt1.plot(self.x1, self.y1, pen=(255,0,0))
+
 	    self.win.nextRow()
-            self.databuffer2 = collections.deque([0.0]*self._bufsize, self._bufsize)
+	    self.plt2 = self.win.addPlot()
+            self.plt2.showGrid(x=True, y=True)
+            self.plt2.setLabel('left', 'amplitude', 'V')
+            self.plt2.setLabel('bottom', 'time', 's')
+
+	    self.databuffer2 = collections.deque([0.0]*self._bufsize, self._bufsize)
             self.x2 = np.linspace(0.0,timewindow,self._bufsize)
             self.y2 = np.zeros(self._bufsize, dtype=np.float)
-            self.curve2 = self.plt.plot(self.x2, self.y2, pen=(255,0,0))
+            self.curve2 = self.plt2.plot(self.x2, self.y2, pen=(255,255,0))
+
 	    self.win.nextRow()
+	    self.plt3 = self.win.addPlot()
+            self.plt3.showGrid(x=True, y=True)
+            self.plt3.setLabel('left', 'amplitude', 'V')
+            self.plt3.setLabel('bottom', 'time', 's')
+
 	    self.databuffer3 = collections.deque([0.0]*self._bufsize, self._bufsize)
             self.x3 = np.linspace(0.0,timewindow,self._bufsize)
             self.y3 = np.zeros(self._bufsize, dtype=np.float)
-            self.curve3 = self.plt.plot(self.x3, self.y3, pen=(255,0,0))
-
+            self.curve3 = self.plt3.plot(self.x3, self.y3, pen=(255,255,0))
 
         gr.sync_block.__init__(self,
             name="Plot",
@@ -129,30 +163,14 @@ class Plot(gr.sync_block):
 	self.databuffer1.append( self.getdata(self.ip2) )
 	self.y1[:] = self.databuffer1
 	self.curve1.setData(self.y1)
-#	works for 2 plots
     def updateplot3(self):
-        self.databuffer.append( self.getdata(self.ip1) )
-        self.databuffer1.append( self.getdata(self.ip2) )
 	self.databuffer2.append( self.getdata(self.ip3) )
-        self.y[:] = self.databuffer
-        self.y1[:] = self.databuffer1
 	self.y2[:] = self.databuffer2
-        self.curve.setData(self.y)
-        self.curve1.setData(self.y1)
 	self.curve2.setData(self.y2)
 
     def updateplot4(self):
-        self.databuffer.append( self.getdata(self.ip1) )
-        self.databuffer1.append( self.getdata(self.ip2) )
-        self.databuffer2.append( self.getdata(self.ip3) )
 	self.databuffer3.append( self.getdata(self.ip4) )
-        self.y[:] = self.databuffer
-        self.y1[:] = self.databuffer1
-        self.y2[:] = self.databuffer2
 	self.y3[:] = self.databuffer3
-        self.curve.setData(self.y)
-        self.curve1.setData(self.y1)
-        self.curve2.setData(self.y2)
 	self.curve3.setData(self.y3)
     def work(self, input_items, output_items):
 	try:
@@ -171,25 +189,24 @@ class Plot(gr.sync_block):
 	    self.ip4 = input_items[3][0]
 	except IndexError:
 	    pass
-	if self.num_plot == 1:
+	if self.num_plot >= 1:
 	    self.updateplot1()
-	elif self.num_plot == 2:
-	    self.updateplot1()
-	    self.updateplot2()
-            th1 = threading.Thread(target=self.updateplot1)
+	    th1 = threading.Thread(target=self.updateplot1)
             th1.setDaemon(True)
-
+	    th1.start()
+	if self.num_plot >= 2:
+	    self.updateplot2()
 	    th2 = threading.Thread(target=self.updateplot2)
 	    th2.setDaemon(True)
 	    th2.start()
-	    th1.start()
-	elif self.num_plot == 3:
-	    self.updateplot1()
-            self.updateplot2()
+	if self.num_plot >= 3:
 	    self.updateplot3()
-	elif self.num_plot == 4:
-	    self.updateplot1()
-            self.updateplot2()
-	    self.updateplot3()
+	    th3 = threading.Thread(target=self.updateplot3)
+            th3.setDaemon(True)
+	    th3.start()
+	if self.num_plot >= 4:
             self.updateplot4()
+	    th4 = threading.Thread(target=self.updateplot4)
+            th4.setDaemon(True)
+	    th4.start()
 	return len(input_items[0])
