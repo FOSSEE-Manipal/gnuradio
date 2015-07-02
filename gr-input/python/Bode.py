@@ -18,6 +18,8 @@ from matplotlib.backends.backend_wx import NavigationToolbar2Wx
 from matplotlib.figure import Figure
 import gnuradio.wxgui.plot as plot
 import matplotlib.animation as animation
+import Image
+import cStringIO
 temp = ''
 class Bode(gr.sync_block):
     """
@@ -94,6 +96,15 @@ class BodePlot(wx.Panel):
 		self.axes2.grid(True , color='gray')
 		self.axes2.set_ylabel("Phase (deg)" if deg else "Phase (rad)")
 		self.axes2.set_xlabel("Frequency (Hz)" if Hz else "Frequency (rad/sec)")
+		try:
+			imageFile = '/home/sailesh/Desktop/lcbandstop.jpg'
+			im1 = Image.open(imageFile)
+			im1.show()
+			jpg1 = wx.Image(imageFile, wx.BITMAP_TYPE_ANY).ConvertToBitmap()
+			wx.StaticBitmap(self, -1, jpg1, (200 + jpg1.GetWidth(), 100), (jpg1.GetWidth(), jpg1.GetHeight()))
+		except IOError:
+			print "Image file %s not found" % imageFile
+			raise SystemExit
 
 	def plot(self, syslist, omega=None, dB=None, Hz=None, deg=None, Plot=True, *args , **kwargs):
 		self.axes1.clear()
