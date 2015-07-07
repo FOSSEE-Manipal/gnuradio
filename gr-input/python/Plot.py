@@ -39,9 +39,6 @@ class Plot(gr.sync_block):
     """
     docstring for block add_python
     """
-#    def work1():
-#	print "kappa"
-
     def __init__(self,sampleinterval,timewindow,num_plot):
 	a = []
         for i in range(0,num_plot):
@@ -55,20 +52,11 @@ class Plot(gr.sync_block):
 	self.win = pg.GraphicsWindow()
         self._interval = int(sampleinterval*1000)
         self._bufsize = int(timewindow/sampleinterval)
-
 	self.plt=[0 for x1 in range(no)]
 	self.databuffer=[0 for x2 in range(no)]
 	self.x=[0 for x3 in range(no)]
 	self.y=[0 for x4 in range(no)]
 	self.curve=[0 for x5 in range(no)]
-	'''if __name__ == '__main__':
-	worker=[0 for x1 in range(no)]
-	i0=0
-	while(i0<no):
-	 	worker[i0] = multiprocessing.Process(target=work1)
-		print "hohohohohohooho"
-	    	worker[i0].start()
-		i0=i0+1'''
         op=0
 	while (op< self.num_plot ):
             self.plt[op] = self.win.addPlot()
@@ -88,7 +76,6 @@ class Plot(gr.sync_block):
             name="Plot",
             in_sig=a,
             out_sig=None)
-
 
     def getdata(self,ip):
         new = ip
